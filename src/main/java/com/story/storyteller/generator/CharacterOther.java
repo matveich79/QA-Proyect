@@ -1,6 +1,6 @@
 package com.story.storyteller.generator;
 
-public class Character {
+public class CharacterOther {
 	
 	private int id;
 	private String name;
@@ -10,8 +10,7 @@ public class Character {
 	private String desire;
 	
 	
-	
-	public Character(int id, String name, String type, String background, String conflict, String desire) {
+	public CharacterOther(int id, String name, String type, String background, String conflict, String desire) {
 		super();
 		this.id = id;
 		this.name = name;

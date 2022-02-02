@@ -8,7 +8,7 @@ public class StorytellerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StorytellerApplication.class, args);
-		System.out.println("hellooo");
+		
 	}
 
 }
