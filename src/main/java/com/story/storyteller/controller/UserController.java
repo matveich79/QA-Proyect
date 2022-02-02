@@ -97,7 +97,12 @@ public class UserController {
 //				}
 //			}
 //		}
-		return null;
+		User updatedUser = userService.update(id, user);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", "/user/" + String.valueOf(updatedUser.getId()));
+		
+		return new ResponseEntity<User>(updatedUser, headers, HttpStatus.ACCEPTED);
 	}
 	
 	// DELETE
@@ -115,7 +120,8 @@ public class UserController {
 //		} else {
 //			throw new EntityNotFoundException("Entity with id " + id + " was not found.");
 //		}
-		return null;
+		userService.delete(id);
+		return ResponseEntity.accepted().build();
 	}
 	
 //	private boolean userExists(long id) {

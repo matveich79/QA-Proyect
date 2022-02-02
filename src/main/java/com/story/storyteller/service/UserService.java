@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qa.user_app.exceptions.UserNotFoundException;
 import com.story.storyteller.data.entity.User;
 import com.story.storyteller.data.repository.UserRepository;
 
@@ -37,7 +38,7 @@ public class UserService {
 		return savedUser;
 	}
 	
-	public User update(User user) {
+	public User update(long id, User user) {
 		if (userRepository.existsById(id)) {
 			User userInDb = userRepository.getById(id);
 			userInDb.setAge(user.getAge());
@@ -52,6 +53,8 @@ public class UserService {
 	public void delete(Long id) {
 		if (userRepository.existsById(id)) {
 			userRepository.deleteById(id);
+		} else {
+			throw new EntityNotFoundException("User with id " + id + " does not exist");
 		}
 	}
 	
