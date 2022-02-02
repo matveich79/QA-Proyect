@@ -23,20 +23,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.story.storyteller.data.entity.User;
-import com.story.storyteller.data.repository.UserRepository;
-import com.story.storyteller.service.UserService;
+import com.story.storyteller.data.entity.Character;
+import com.story.storyteller.data.repository.CharacterRepository;
+import com.story.storyteller.service.CharacterService;
 
 
 @RestController // this is a bean that should be stored in the app context
-@RequestMapping(path = "/user") // access this controller at localhost:8080/user
-public class UserController {
+@RequestMapping(path = "/character") // access this controller at localhost:8080/user
+public class CharacterController {
 	
-	private UserService userService;
+	private CharacterService characterService;
 	
 	@Autowired
-	public UserController(UserService userService) {
-		this.userService = userService;
+	public CharacterController(CharacterService characterService) {
+		this.characterService = characterService;
 	}
 	
 	//private static long counter = 1;
@@ -45,48 +45,57 @@ public class UserController {
 	
 	// READ ALL
 	@GetMapping // localhost:8080/user
-	public ResponseEntity<List<User>> getUsers() {
-		ResponseEntity<List<User>> users = ResponseEntity.ok(userService.getAll());
-		return users;
+	public ResponseEntity<List<Character>> getUsers() {
+		ResponseEntity<List<Character>> characters = ResponseEntity.ok(characterService.getAll());
+		return characters;
 	}
 	
 	
 	// READ BY ID
-	@RequestMapping(path = "/{id}", method = { RequestMethod.GET })
-	public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
+	@RequestMapping(path = "/id/{id}", method = { RequestMethod.GET })
+	public ResponseEntity<Character> getCharacterById(@PathVariable("id") long id) {
 //		for (User user : users) {
 //			if (user.getId() == id) {
 //				return user;
 //			}
 //		}
 //		throw new EntityNotFoundException("Entity with id " + id + " was not found.");
-		User savedUser = userService.getById(id);
+		Character savedCharacter = characterService.getById(id);
 		
-		ResponseEntity<User> response = ResponseEntity.status(HttpStatus.OK)
-													  .body(savedUser);
+		ResponseEntity<Character> response = ResponseEntity.status(HttpStatus.OK)
+													  .body(savedCharacter);
 		return response;
 	}
 	
+	
+	// READ BY NAME
+	@RequestMapping(path = "/name/{name}", method = { RequestMethod.GET})
+	public ResponseEntity<List<Character>> getCharacterByName(@PathVariable("name") String name) {
+		ResponseEntity<List<Character>> characters = ResponseEntity.ok(characterService.getByName(name));
+		return characters;
+	}
+	
+	
 	// CREATE
 	@PostMapping
-	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+	public ResponseEntity<Character> createCharacter(@Valid @RequestBody Character character) {
 //		System.out.println(user);
 //		user.setId(counter++);
 //		users.add(user);
 //		return user;
 		
-		User savedUser = userService.create(user);
+		Character savedCharacter = characterService.create(character);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", "/user/" + String.valueOf(savedUser.getId()));
+		headers.add("Location", "/user/" + String.valueOf(savedCharacter.getId()));
 		headers.add("Contest-Type", "application/json");
 		
-		ResponseEntity<User> response = new ResponseEntity<User>(savedUser, headers, HttpStatus.CREATED);
+		ResponseEntity<Character> response = new ResponseEntity<Character>(savedCharacter, headers, HttpStatus.CREATED);
 		return response;
 	}
 	
 	//UPDATE
 	@PutMapping("/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable("id") long id, @Valid @RequestBody User user) {
+	public ResponseEntity<Character> updateCharacter(@PathVariable("id") long id, @Valid @RequestBody Character character) {
 //		if (userExists(id)) {
 //			for (User userInDb : users) {
 //				if (userInDb.getId() == id) {
@@ -97,12 +106,12 @@ public class UserController {
 //				}
 //			}
 //		}
-		User updatedUser = userService.update(id, user);
+		Character updatedCharacter = characterService.update(id, character);
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", "/user/" + String.valueOf(updatedUser.getId()));
+		headers.add("Location", "/character/" + String.valueOf(updatedCharacter.getId()));
 		
-		return new ResponseEntity<User>(updatedUser, headers, HttpStatus.ACCEPTED);
+		return new ResponseEntity<Character>(updatedCharacter, headers, HttpStatus.ACCEPTED);
 	}
 	
 	// DELETE
@@ -120,7 +129,7 @@ public class UserController {
 //		} else {
 //			throw new EntityNotFoundException("Entity with id " + id + " was not found.");
 //		}
-		userService.delete(id);
+		characterService.delete(id);
 		return ResponseEntity.accepted().build();
 	}
 	

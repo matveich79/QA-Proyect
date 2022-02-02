@@ -6,26 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
-import com.story.storyteller.data.entity.User;
-import com.story.storyteller.data.repository.UserRepository;
+import com.story.storyteller.data.entity.Character;
+import com.story.storyteller.data.repository.CharacterRepository;
 
+//@Profile("dev")
 @Configuration
 public class ApplicationStartupListener implements ApplicationListener<ApplicationReadyEvent> {
 
-	private UserRepository userRepository;
+	private CharacterRepository characterRepository;
 
 	@Autowired
-	public ApplicationStartupListener(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public ApplicationStartupListener(CharacterRepository characterRepository) {
+		this.characterRepository = characterRepository;
 	}
 	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
-		userRepository.saveAll(List.of(
-				new User("Jon", "Smith", 28),
-				new User("Anna", "Jones", 31),
-				new User("Paul", "Evans", 39)
+		characterRepository.saveAll(List.of(
+				new Character("Jon", "Hero", 28, "romance"),
+				new Character("Anna", "Ally", 31, "quest"),
+				new Character("Paul", "Mentor", 39, "unrecognition")
 				));
 	}
 }
