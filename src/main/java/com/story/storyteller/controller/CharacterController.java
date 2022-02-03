@@ -45,7 +45,7 @@ public class CharacterController {
 	
 	// READ ALL
 	@GetMapping // localhost:8080/user
-	public ResponseEntity<List<Character>> getUsers() {
+	public ResponseEntity<List<Character>> getCharacters() {
 		ResponseEntity<List<Character>> characters = ResponseEntity.ok(characterService.getAll());
 		return characters;
 	}
@@ -54,12 +54,6 @@ public class CharacterController {
 	// READ BY ID
 	@RequestMapping(path = "/id/{id}", method = { RequestMethod.GET })
 	public ResponseEntity<Character> getCharacterById(@PathVariable("id") long id) {
-//		for (User user : users) {
-//			if (user.getId() == id) {
-//				return user;
-//			}
-//		}
-//		throw new EntityNotFoundException("Entity with id " + id + " was not found.");
 		Character savedCharacter = characterService.getById(id);
 		
 		ResponseEntity<Character> response = ResponseEntity.status(HttpStatus.OK)
@@ -79,66 +73,35 @@ public class CharacterController {
 	// CREATE
 	@PostMapping
 	public ResponseEntity<Character> createCharacter(@Valid @RequestBody Character character) {
-//		System.out.println(user);
-//		user.setId(counter++);
-//		users.add(user);
-//		return user;
 		
 		Character savedCharacter = characterService.create(character);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", "/user/" + String.valueOf(savedCharacter.getId()));
-		headers.add("Contest-Type", "application/json");
+		headers.add("Location", "/character/" + String.valueOf(savedCharacter.getId()));
+		// headers.add("Contest-Type", "application/json");
 		
 		ResponseEntity<Character> response = new ResponseEntity<Character>(savedCharacter, headers, HttpStatus.CREATED);
 		return response;
 	}
 	
 	//UPDATE
-	@PutMapping("/{id}")
+	@PutMapping("/id/{id}")
 	public ResponseEntity<Character> updateCharacter(@PathVariable("id") long id, @Valid @RequestBody Character character) {
-//		if (userExists(id)) {
-//			for (User userInDb : users) {
-//				if (userInDb.getId() == id) {
-//					userInDb.setAge(user.getAge());
-//					userInDb.setForename(user.getForename());
-//					userInDb.setSurname(user.getSurname());
-//					return userInDb;
-//				}
-//			}
-//		}
+
 		Character updatedCharacter = characterService.update(id, character);
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", "/character/" + String.valueOf(updatedCharacter.getId()));
+		headers.add("Location", "/character/id/" + String.valueOf(updatedCharacter.getId()));
 		
 		return new ResponseEntity<Character>(updatedCharacter, headers, HttpStatus.ACCEPTED);
 	}
 	
 	// DELETE
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
-//		if (userExists(id)) {
-//			Iterator<User> iterator = users.iterator();
-//			while (iterator.hasNext()) {
-//				User user = iterator.next();
-//				if (user.getId() == id) {
-//					iterator.remove();
-//					return;
-//				}
-//			}
-//		} else {
-//			throw new EntityNotFoundException("Entity with id " + id + " was not found.");
-//		}
+	@DeleteMapping("/id/{id}")
+	public ResponseEntity<?> deleteCharacterById(@PathVariable("id") long id) {
+
 		characterService.delete(id);
 		return ResponseEntity.accepted().build();
 	}
 	
-//	private boolean userExists(long id) {
-//		for (User user : users) {
-//			if (user.getId() == id) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+
 }

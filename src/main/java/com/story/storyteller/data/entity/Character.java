@@ -109,26 +109,5 @@ public class Character {
 		return Objects.equals(age, other.age) && Objects.equals(conflict, other.conflict)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name) && Objects.equals(type, other.type);
 	}
-
-//	@Override
-//	public int hashCode() {
-//		return Objects.hash(age, name, id, type, conflict);
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Character other = (Character) obj;
-//		return Objects.equals(age, other.age) && Objects.equals(name, other.name)
-//				&& Objects.equals(id, other.id) && Objects.equals(type, other.type);
-//	}
-
-
-	
 	
 }
