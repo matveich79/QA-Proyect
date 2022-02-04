@@ -22,8 +22,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qa.user_app.data.entity.User;
-import com.qa.user_app.data.repository.UserRepository;
 import com.story.storyteller.data.entity.Character;
 import com.story.storyteller.data.repository.CharacterRepository;
 

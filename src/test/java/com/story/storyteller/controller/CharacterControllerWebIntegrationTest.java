@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.story.storyteller.service.CharacterService;
-import com.qa.user_app.data.entity.User;
 import com.story.storyteller.data.entity.Character;
 
 //@SpringBootTest

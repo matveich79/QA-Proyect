@@ -89,7 +89,7 @@ public class Character {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", type=" + type + ", age=" + age + ", conflict=" + conflict + "]";
+		return "Character [id=" + id + ", name=" + name + ", type=" + type + ", age=" + age + ", conflict=" + conflict + "]";
 	}
 
 	@Override

@@ -10,10 +10,6 @@ public class CharacterNotFoundException extends EntityNotFoundException{
 
 	private static final long serialVersionUID = 1L;
 
-	public CharacterNotFoundException() {
-		super();
-	}
-
 	public CharacterNotFoundException(String message) {
 		super(message);
 	}

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.story.storyteller.data.entity.Character;
 import com.story.storyteller.data.repository.CharacterRepository;
 
-//@Profile("dev")
+@Profile("dev")
 @Configuration
 public class ApplicationStartupListener implements ApplicationListener<ApplicationReadyEvent> {
 

@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.story.storyteller.data.entity.Character;
 import com.story.storyteller.data.repository.CharacterRepository;
+import com.story.storyteller.exceptions.CharacterNameInUse;
 import com.story.storyteller.service.CharacterService;
 
 
@@ -68,14 +69,14 @@ public class CharacterServiceIntegrationTest {
 	public void updateCharacterTest() {
 		Character characterInDb = charactersInDatabase.get(0);
 		long id = characterInDb.getId();
-		Character userWithUpdatesToMake = new Character(characterInDb.getId(), 
+		Character characterWithUpdatesToMake = new Character(characterInDb.getId(), 
 											  characterInDb.getName(), 
 											  characterInDb.getType(), 
 											  characterInDb.getAge() + 1,
 											  characterInDb.getConflict());
 		
-		Character actual = characterService.update(id, userWithUpdatesToMake);
-		assertThat(actual).isEqualTo(userWithUpdatesToMake);
+		Character actual = characterService.update(id, characterWithUpdatesToMake);
+		assertThat(actual).isEqualTo(characterWithUpdatesToMake);
 	}
 
 	@Test
@@ -86,5 +87,23 @@ public class CharacterServiceIntegrationTest {
 		characterService.delete(id);
 		
 		assertThat(characterRepository.findById(id)).isEqualTo(Optional.empty());
+	}
+	
+	@Test
+	public void createCharacterExceptionTest() {
+		Character existingCharacter = new Character(3, "Peter", "Sadow", 20, "romance");
+		assertThat(characterService.create(existingCharacter)).isEqualTo("This name is already been use in other character");
+	}
+	
+	@Test
+	public void getByNameExceptionTest() {
+		String nameNotExisting = "dflkjsadas";
+		assertThat(characterService.getByName(nameNotExisting)).isEqualTo("Character with name " + nameNotExisting + " does not exist");
+	}
+	
+	@Test
+	public void deleteExceptionTest() {
+		long idNotExisting = 9; 
+		assertThat(characterService.delete(idNotExisting)).isEqualTo("Character with id " + idNotExisting + " does not exist");
 	}
 }
